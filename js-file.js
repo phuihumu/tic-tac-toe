@@ -34,6 +34,7 @@ const displayController = (() => {
         {
             let cell = document.createElement('div');
             cell.setAttribute('id', i);
+            cell.innerHTML = "X";
             cell.classList.add('cell');
             container.appendChild(cell);
         }

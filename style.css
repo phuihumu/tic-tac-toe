@@ -13,7 +13,12 @@
 }
 
 .cell {
+    display: flex;
     background-color: rgb(109, 128, 211);
     border-radius: 8px;
     border: 6px solid rgb(35, 38, 82);
+    font-size: 100px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    align-items: center;
 }

@@ -30,14 +30,12 @@ const gameBoard = (() => {
 const displayController = (() => {
     const container = document.querySelector('.container');
     const createBoard = (gameboard) => {
-        for (let i = 0; i < 3; i++)
+        for (let i = 0; i < 9; i++)
         {
-            for (let j = 0; j < 3; j++)
-            {
-                let cell = document.createElement('div');
-                cell.classList.add('cell');
-                container.appendChild(cell);
-            }
+            let cell = document.createElement('div');
+            cell.setAttribute('id', i);
+            cell.classList.add('cell');
+            container.appendChild(cell);
         }
     };
     return {createBoard};
@@ -53,3 +51,6 @@ const Player = (symbol) => {
     };
     return {getSymbol, victory}
 };
+
+displayController.createBoard(gameBoard.getGameBoard());
+console.log(gameBoard.getGameBoard());

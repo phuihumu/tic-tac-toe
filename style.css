@@ -1,0 +1,19 @@
+.title {
+    text-align: center;
+}
+
+.container {
+    display: grid;
+    margin: auto;
+    height: 500px;
+    width: 500px;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    background-color: rgb(35, 38, 82);
+}
+
+.cell {
+    background-color: rgb(109, 128, 211);
+    border-radius: 8px;
+    border: 6px solid rgb(35, 38, 82);
+}

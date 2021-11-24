@@ -63,8 +63,13 @@ const displayWinner = (() => {
             modal.style.display = "none";
         }
     })
-    const showWinner = (player) => {
-        winnerText.innerHTML = "Winner is " + player.getPlayerName() + "!";
+    const showWinner = (player, moves) => {
+        if (moves === 9)
+        {
+            winnerText.innerHTML = "Tie!";
+        } else {
+            winnerText.innerHTML = "Winner is " + player.getPlayerName() + "!";
+        }
         modal.style.display = "block";
     }
     return {showWinner};
@@ -97,25 +102,29 @@ const gameStart = (() => {
                 gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
                 moves++;
                 winCheck(event);
-                if (result != null) //Check if Player One won
+                if (result != null && moves !== 9) //Check if Player One won
                 {
                     playerOne.victory();
                     playerOneWins.innerHTML = "Wins: " + playerOne.getWins();
-                    displayWinner.showWinner(playerOne);
+                    displayWinner.showWinner(playerOne, moves);
                 }
             }
-            else {  //Player Two's Turn
+            else if (playerTwoTurn) {  //Player Two's Turn
                 playerTwoTurn--;
                 playerOneTurn++;
                 gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
                 moves++;
                 winCheck(event);
-                if (result != null) //Check if Player Two won
+                if (result != null && moves !== 9) //Check if Player Two won
                 {
                     playerTwo.victory();
                     playerTwoWins.innerHTML = "Wins: " + playerTwo.getWins();
-                    displayWinner.showWinner(playerTwo);
+                    displayWinner.showWinner(playerTwo, moves);
                 }
+            }
+            if (result != null && moves === 9)
+            {
+                displayWinner.showWinner(playerOne, moves);
             }
         }
     };

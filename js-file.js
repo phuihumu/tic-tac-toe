@@ -1,10 +1,11 @@
-const container = document.querySelector('.container');
 
 //Gameboard Object
 const gameBoard = (() => {
+    const container = document.querySelector('.container');
     let gameboard = [];
     const getGameBoard = () => gameboard;
     const clearGameBoard = () => {
+        while (container.firstChild) container.removeChild(container.firstChild);
         gameboard = [];
     };
     const addSymbol = (event, symbol) => {
@@ -21,6 +22,7 @@ const gameBoard = (() => {
             container.appendChild(cell);
             gameboard[i] = cell;
         }
+        container.addEventListener("click", gameStart.play);
     };
     return {getGameBoard,clearGameBoard, createBoard, addSymbol}
 })();
@@ -52,7 +54,11 @@ const gameStart = (() => {
     let result;
     let winner;
     const play = (event) => {
-        if (playerOneTurn) {
+        if (result != null)
+        {
+            alert("Clear Board to Start a New Game!");
+        }
+        else if (playerOneTurn) {
             playerOneTurn--;
             playerTwoTurn++;
             gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
@@ -134,12 +140,21 @@ const gameStart = (() => {
         winner = null;
         gameBoard.clearGameBoard();
     }
-    return {play}
+    return {play, clearGame}
 })();
 
-gameBoard.createBoard(gameBoard.getGameBoard());
-console.log(gameBoard.getGameBoard());
-console.log(gameBoard.getGameBoard()[0]);
+const start = document.querySelector('.clear');
+start.addEventListener("click", () => {
+    if (start.innerHTML === "Start Game") {
+        console.log("start")
+        gameBoard.createBoard();
+        start.innerHTML = "Clear Board";
+    }
+    else {
+        console.log("clear")
+        gameStart.clearGame();
+        start.innerHTML = "Start Game"
+    }
+});
 
-container.addEventListener("click", gameStart.play);
 

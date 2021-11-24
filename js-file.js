@@ -18,7 +18,6 @@ const gameBoard = (() => {
         {
             let cell = document.createElement('div');
             cell.classList.add('cell');
-            gameBoard.getGameBoard
             container.appendChild(cell);
             gameboard[i] = cell;
         }
@@ -49,18 +48,84 @@ const gameStart = (() => {
     const playerTwo = Player("O");
     let playerOneTurn = 1;
     let playerTwoTurn = 0;
+    let moves;
+    let result;
+    let winner;
     const play = (event) => {
         if (playerOneTurn) {
             playerOneTurn--;
             playerTwoTurn++;
             gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
+            moves++;
+            winCheck(event);
+            if (result != null)
+            {
+                winner = playerOne;
+                console.log("Player One Wins");
+            }
         }
         else {
             playerTwoTurn--;
             playerOneTurn++;
             gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
+            moves++;
+            winCheck(event);
+            if (result != null)
+            {
+                winner = playerTwo;
+                console.log("Player Two Wins");
+            }
         }
-    }
+
+    };
+    const winCheck = (event) => {
+        board = gameBoard.getGameBoard();
+        let cell = board.indexOf(event.target);
+        let rowMatch = 0;
+        let columnMatch = 0;
+        //Check 
+        for (let i = 0; i < 9; i++) {
+            if (board[i].innerHTML === board[cell].innerHTML)
+            {
+                rowMatch++;
+            }
+            if (rowMatch === 3)    //Row Win Found
+            {
+                result = "row";
+            }
+            if (i === 2 || i === 5 || i === 8)
+            {
+                rowMatch = 0;
+            }
+            if (i < 3)
+            {
+                if (board[i].innerHTML === board[cell].innerHTML 
+                    && board[i + 3].innerHTML === board[cell].innerHTML
+                    && board[i + 6].innerHTML === board[cell].innerHTML)   //Column Win Found
+                {
+                    result = "col"
+                } else {
+                    columnMatch = 0;
+                }
+            }
+        }
+        if (board[0].innerHTML === board[cell].innerHTML
+            && board[4].innerHTML === board[cell].innerHTML
+            && board[8].innerHTML === board[cell].innerHTML)  //Diagonal Win One Found
+        {
+            result = "dia";
+        }
+        if (board[2].innerHTML === board[cell].innerHTML
+            && board[4].innerHTML === board[cell].innerHTML
+            && board[6].innerHTML === board[cell].innerHTML)  //Diagonal Win Two Found
+        {
+            result = "dia";
+        }
+        if (moves === 9)
+        {
+            result = "tie";
+        }
+    };
     return {play}
 })();
 

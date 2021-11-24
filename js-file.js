@@ -27,12 +27,6 @@ const gameBoard = (() => {
     return {getGameBoard,clearGameBoard, createBoard, addSymbol}
 })();
 
-//Display Controller Object Creates Display
-/*const displayController = (() => {
-
-    return {createBoard, addSymbol};
-})();*/
-
 //Player Object
 const Player = (symbol) => {
     let playerName;
@@ -43,7 +37,7 @@ const Player = (symbol) => {
     const setPlayerName = (input, player) => {
         if (input === "")
         {
-            playerName = "Player" + player;
+            playerName = "Player " + player;
         }
         else {
             playerName = input;
@@ -56,6 +50,26 @@ const Player = (symbol) => {
     return {getPlayerName,getPlayerSymbol,setPlayerName,victory,getWins}
 };
 
+//Display Winner Object
+const displayWinner = (() => {
+    const modal = document.querySelector(".modal");
+    const winnerText = document.querySelector(".winner-text");
+    const span = document.querySelector(".close");
+    span.addEventListener("click", () => {
+        modal.style.display = "none";
+    })
+    window.addEventListener("click", (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    })
+    const showWinner = (player) => {
+        winnerText.innerHTML = "Winner is " + player.getPlayerName() + "!";
+        modal.style.display = "block";
+    }
+    return {showWinner};
+})();
+
 //Game Object
 const gameStart = (() => {
     const playerOneName = document.querySelector("#playerOne");
@@ -64,13 +78,13 @@ const gameStart = (() => {
     const playerTwoWins = document.querySelector("#playerTwoWins");
     const playerOne = Player("X");
     const playerTwo = Player("O");
-    playerOne.setPlayerName = playerOneName.value;
-    playerTwo.setPlayerName = playerTwoName.value;
     let playerOneTurn = 1;
     let playerTwoTurn = 0;
     let moves;
     let result;
     const play = (event) => {
+        playerOne.setPlayerName(playerOneName.value, "One");
+        playerTwo.setPlayerName(playerTwoName.value, "Two");
         if (event.target.classList.contains("cell"))
         {
             if (result != null)
@@ -87,6 +101,7 @@ const gameStart = (() => {
                 {
                     playerOne.victory();
                     playerOneWins.innerHTML = "Wins: " + playerOne.getWins();
+                    displayWinner.showWinner(playerOne);
                 }
             }
             else {
@@ -99,6 +114,7 @@ const gameStart = (() => {
                 {
                     playerTwo.victory();
                     playerTwoWins.innerHTML = "Wins: " + playerTwo.getWins();
+                    displayWinner.showWinner(playerTwo);
                 }
             }
         }

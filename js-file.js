@@ -35,54 +35,73 @@ const gameBoard = (() => {
 
 //Player Object
 const Player = (symbol) => {
+    let playerName;
     let playerSymbol = symbol;
     let wins = 0;
+    const getPlayerName = () => playerName;
     const getPlayerSymbol = () => playerSymbol;
+    const setPlayerName = (input, player) => {
+        if (input === "")
+        {
+            playerName = "Player" + player;
+        }
+        else {
+            playerName = input;
+        }
+    }
+    const getWins = () => wins;
     const victory = () => {
         wins++;
     };
-    return {getPlayerSymbol, victory}
+    return {getPlayerName,getPlayerSymbol,setPlayerName,victory,getWins}
 };
 
 //Game Object
 const gameStart = (() => {
+    const playerOneName = document.querySelector("#playerOne");
+    const playerTwoName = document.querySelector("#playerTwo");
+    const playerOneWins = document.querySelector("#playerOneWins");
+    const playerTwoWins = document.querySelector("#playerTwoWins");
     const playerOne = Player("X");
     const playerTwo = Player("O");
+    playerOne.setPlayerName = playerOneName.value;
+    playerTwo.setPlayerName = playerTwoName.value;
     let playerOneTurn = 1;
     let playerTwoTurn = 0;
     let moves;
     let result;
-    let winner;
     const play = (event) => {
-        if (result != null)
+        if (event.target.classList.contains("cell"))
         {
-            alert("Clear Board to Start a New Game!");
-        }
-        else if (playerOneTurn) {
-            playerOneTurn--;
-            playerTwoTurn++;
-            gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
-            moves++;
-            winCheck(event);
             if (result != null)
             {
-                winner = playerOne;
-                console.log("Player One Wins");
+                alert("Clear Board to Start a New Game!");
+            }
+            else if (playerOneTurn) {
+                playerOneTurn--;
+                playerTwoTurn++;
+                gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
+                moves++;
+                winCheck(event);
+                if (result != null)
+                {
+                    playerOne.victory();
+                    playerOneWins.innerHTML = "Wins: " + playerOne.getWins();
+                }
+            }
+            else {
+                playerTwoTurn--;
+                playerOneTurn++;
+                gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
+                moves++;
+                winCheck(event);
+                if (result != null)
+                {
+                    playerTwo.victory();
+                    playerTwoWins.innerHTML = "Wins: " + playerTwo.getWins();
+                }
             }
         }
-        else {
-            playerTwoTurn--;
-            playerOneTurn++;
-            gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
-            moves++;
-            winCheck(event);
-            if (result != null)
-            {
-                winner = playerTwo;
-                console.log("Player Two Wins");
-            }
-        }
-
     };
     const winCheck = (event) => {
         board = gameBoard.getGameBoard();
@@ -137,7 +156,6 @@ const gameStart = (() => {
         playerTwoTurn = 0;
         moves = 0;
         result = null;
-        winner = null;
         gameBoard.clearGameBoard();
     }
     return {play, clearGame}

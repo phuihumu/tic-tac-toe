@@ -7,10 +7,23 @@
     </head>
     <body>
         <h1 class="title">Tic Tac Toe</h1>
-        <div class="container"></div>
-        <div class="button-container">
-            <button class="clear">Start Game</button>
+        <div class="playerInput">
+            <div class="playerOneInput">
+                <label id="playerOneName">Player One</label><br>
+                <input id="playerOne" placeholder="Player One Name" required><br>
+                <label id="playerOneWins">Wins: 0</label>
+            </div>
+            <div class="button-container">
+                <button class="clear">Start Game</button>
+            </div>
+            <div class="playerTwoInput">
+                <label id="playerTwoName">Player Two</label><br>
+                <input id="playerTwo" placeholder="Player Two Name" required><br>
+                <label id="playerTwoWins">Wins: 0</label>
+            </div>
         </div>
+        <div class="container"></div>
+
     </body>
     <script src="js-file.js" defer></script>
 </html>

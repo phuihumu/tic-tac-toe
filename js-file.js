@@ -8,13 +8,13 @@ const gameBoard = (() => {
         while (container.firstChild) container.removeChild(container.firstChild);
         gameboard = [];
     };
-    const addSymbol = (event, symbol) => {
+    const addSymbol = (event, symbol) => {  //Adds a symbol to the tic tac toe square
         let cell = event.target;
         if (cell.innerHTML === "") {
             cell.innerHTML = symbol;
         }
     };
-    const createBoard = () => {
+    const createBoard = () => { //Creates a 9x9 grid for the tic tac toe board
         for (let i = 0; i < 9; i++)
         {
             let cell = document.createElement('div');
@@ -82,35 +82,35 @@ const gameStart = (() => {
     let playerTwoTurn = 0;
     let moves;
     let result;
-    const play = (event) => {
+    const play = (event) => {   //Main function with the logic that allows players to place tic tac toe
         playerOne.setPlayerName(playerOneName.value, "One");
         playerTwo.setPlayerName(playerTwoName.value, "Two");
-        if (event.target.classList.contains("cell"))
+        if (event.target.classList.contains("cell"))    //Makes sure that the user is clicking within a cell
         {
-            if (result != null)
+            if (result != null) //Checks to make sure a result is not already found
             {
                 alert("Clear Board to Start a New Game!");
             }
-            else if (playerOneTurn) {
+            else if (playerOneTurn) {   //Player One's Turn
                 playerOneTurn--;
                 playerTwoTurn++;
                 gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
                 moves++;
                 winCheck(event);
-                if (result != null)
+                if (result != null) //Check if Player One won
                 {
                     playerOne.victory();
                     playerOneWins.innerHTML = "Wins: " + playerOne.getWins();
                     displayWinner.showWinner(playerOne);
                 }
             }
-            else {
+            else {  //Player Two's Turn
                 playerTwoTurn--;
                 playerOneTurn++;
                 gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
                 moves++;
                 winCheck(event);
-                if (result != null)
+                if (result != null) //Check if Player Two won
                 {
                     playerTwo.victory();
                     playerTwoWins.innerHTML = "Wins: " + playerTwo.getWins();
@@ -119,12 +119,12 @@ const gameStart = (() => {
             }
         }
     };
-    const winCheck = (event) => {
+    const winCheck = (event) => {  
         board = gameBoard.getGameBoard();
         let cell = board.indexOf(event.target);
         let rowMatch = 0;
         let columnMatch = 0;
-        //Check 
+        //Check for wins
         for (let i = 0; i < 9; i++) {
             if (board[i].innerHTML === board[cell].innerHTML)
             {
@@ -167,7 +167,7 @@ const gameStart = (() => {
             result = "tie";
         }
     };
-    const clearGame = () => {
+    const clearGame = () => {   //Clear the game
         playerOneTurn = 1;
         playerTwoTurn = 0;
         moves = 0;
@@ -179,12 +179,13 @@ const gameStart = (() => {
 
 const start = document.querySelector('.clear');
 start.addEventListener("click", () => {
+    //Generate board when start button is clicked
     if (start.innerHTML === "Start Game") {
         console.log("start")
         gameBoard.createBoard();
         start.innerHTML = "Clear Board";
     }
-    else {
+    else {  //Clear board when clear button is clicked
         console.log("clear")
         gameStart.clearGame();
         start.innerHTML = "Start Game"

@@ -126,6 +126,14 @@ const gameStart = (() => {
             result = "tie";
         }
     };
+    const clearGame = () => {
+        playerOneTurn = 1;
+        playerTwoTurn = 0;
+        moves = 0;
+        result = null;
+        winner = null;
+        gameBoard.clearGameBoard();
+    }
     return {play}
 })();
 

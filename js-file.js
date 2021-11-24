@@ -36,10 +36,11 @@ const gameBoard = (() => {
 const Player = (symbol) => {
     let playerSymbol = symbol;
     let wins = 0;
+    const getPlayerSymbol = () => playerSymbol;
     const victory = () => {
         wins++;
     };
-    return {symbol, victory}
+    return {getPlayerSymbol, victory}
 };
 
 //Game Object
@@ -52,12 +53,12 @@ const gameStart = (() => {
         if (playerOneTurn) {
             playerOneTurn--;
             playerTwoTurn++;
-            gameBoard.addSymbol(event, playerOne.symbol);
+            gameBoard.addSymbol(event, playerOne.getPlayerSymbol());
         }
         else {
             playerTwoTurn--;
             playerOneTurn++;
-            gameBoard.addSymbol(event, playerTwo.symbol);
+            gameBoard.addSymbol(event, playerTwo.getPlayerSymbol());
         }
     }
     return {play}
